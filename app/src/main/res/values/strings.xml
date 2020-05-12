@@ -1,0 +1,126 @@
+<resources>
+    <string name="app_name">Make Money</string>
+
+    <string name="learn_from_mentor">Learn From Mentor</string>
+    <string name="save_the_student">SaveTheStudent</string>
+
+    <string-array name="list_title_make_money">
+        <item>Trading</item>
+        <item>Freelancer</item>
+        <item>Fiverr</item>
+        <item>Appen</item>
+        <item>Tez</item>
+        <item>SkillShare</item>
+        <item>$100 a Day Online</item>
+        <item>Qmee</item>
+        <item>Kindle eBook</item>
+        <item>Matched Betting </item>
+        <item>40 easy ways to make money quickly</item>
+        <item>5 passive income ideas</item>
+        <item>The best paid online survey websites</item>
+        <item>29 things you can make money from selling</item>
+        <item>Social Media Stalking</item>
+        <item>Selling Your Photos online</item>
+        <item>Earn Money From Walking</item>
+        <item>20 ways to make money from your website</item>
+        <item>Make Money From Your Language Skills</item>
+        <item>Be a Blogger</item>
+        <item>Sell Your Old Books Online</item>
+        <item>Make Money From Social Media</item>
+        <item>Youtube</item>
+        <item>Pokémon Go</item>
+        <item>37 weird ways students make money</item>
+
+        <item></item>
+
+    </string-array>
+    <string-array name="list_link_make_money">
+        <item>https://bbakeglobal.wixsite.com/trading</item>
+        <item>https://bbakeglobal.wixsite.com/freelancer</item>
+        <item>https://bbakeglobal.wixsite.com/fiverr</item>
+        <item>https://bbakeglobal.wixsite.com/appen</item>
+        <item>https://bbakeglobal.wixsite.com/tezpayment</item>
+        <item>https://bbakeglobal.wixsite.com/skillshare</item>
+        <item>http://andyhafell.com/free-course/</item>
+        <item>https://bbakeglobal.wixsite.com/qmee</item>
+        <item>https://bbakeglobal.wixsite.com/kindle</item>
+        <item>https://www.savethestudent.org/make-money/what-is-matched-betting.html</item>
+        <item>https://www.savethestudent.org/make-money/10-quick-cash-injections.html</item>
+        <item>https://www.savethestudent.org/make-money/5-ways-to-make-money-in-your-sleep.html</item>
+        <item>https://www.savethestudent.org/make-money/best-paid-online-survey-sites.html</item>
+        <item>https://www.savethestudent.org/make-money/things-you-can-make-money-from-selling-right-now.html</item>
+        <item>https://www.savethestudent.org/make-money/get-paid-for-professional-social-media-stalking.html</item>
+        <item>https://www.savethestudent.org/make-money/how-to-make-money-selling-photos-online.html</item>
+        <item>https://www.savethestudent.org/make-money/how-to-earn-money-from-walking.html</item>
+        <item>https://www.savethestudent.org/make-money/ways-make-money-from-website.html</item>
+        <item>https://www.savethestudent.org/make-money/7-ways-make-money-from-language-skills.html</item>
+        <item>https://www.savethestudent.org/make-money/how-to-make-money-as-a-blogger.html</item>
+        <item>https://www.savethestudent.org/make-money/best-places-to-sell-old-books-online.html</item>
+        <item>https://www.savethestudent.org/make-money/make-money-from-social-media.html</item>
+        <item>https://www.savethestudent.org/make-money/how-to-make-money-youtube.html</item>
+        <item>https://www.savethestudent.org/make-money/how-to-make-money-with-pokemon-go.html</item>
+        <item>https://www.savethestudent.org/make-money/weird-ways-make-money.html</item>
+
+        <item></item>
+
+    </string-array>
+    <string-array name="list_by_make_money">
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item>Andy Hafell</item>
+        <item></item>
+        <item></item>
+        <item>Owen Burek</item>
+        <item>Owen Burek</item>
+        <item>Ruth Bushi</item>
+        <item>Jake Butler</item>
+        <item>Katie Paterson</item>
+        <item>Jessica Murray</item>
+        <item>Ruth Bushi</item>
+        <item>Ruth Bushi</item>
+        <item>Owen Burek</item>
+        <item>Ruth Bushi</item>
+        <item>Katie Paterson</item>
+        <item>Jake Butler</item>
+        <item>Jessica Murray</item>
+        <item>Jem Collins</item>
+        <item>Jess Miller</item>
+        <item>Owen Burek</item>
+
+
+        <item></item>
+    </string-array>
+    <string-array name="list_subscription_make_money">
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item>@string/learn_from_mentor</item>
+        <item></item>
+        <item></item>
+        <item>@string/save_the_student</item>
+        <item>@string/save_the_student</item>
+        <item>@string/save_the_student</item>
+        <item>@string/save_the_student</item>
+        <item>@string/save_the_student</item>
+        <item>@string/save_the_student</item>
+        <item>@string/save_the_student</item>
+        <item>@string/save_the_student</item>
+        <item>@string/save_the_student</item>
+        <item>@string/save_the_student</item>
+        <item>@string/save_the_student</item>
+        <item>@string/save_the_student</item>
+        <item>@string/save_the_student</item>
+        <item>@string/save_the_student</item>
+        <item>@string/save_the_student</item>
+        <item>@string/save_the_student</item>
+
+        <item></item>
+    </string-array>
+</resources>
