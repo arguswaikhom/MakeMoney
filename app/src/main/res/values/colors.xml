@@ -3,6 +3,11 @@
     <color name="colorPrimary">#212121</color>
     <color name="colorPrimaryDark">#212121</color>
     <!--<color name="colorAccent">#2121</color>-->
-    <color name="colorAccent">#4527a0</color>
+    <color name="colorAccent">#FF0049</color>
     <color name="subscriptionText">#795548</color>
+    <color name="grey_5">#f2f2f2</color>
+    <color name="colorRipple">#403F3F</color>
+    <color name="text_hint">#66FFFFFF</color>
+    <color name="text_secondary">#99FFFFFF</color>
+    <color name="menu_popup_background">#66000000</color>
 </resources>

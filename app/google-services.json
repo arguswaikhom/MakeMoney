@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "394535062049",
+    "firebase_url": "https://crown-makemoney.firebaseio.com",
+    "project_id": "crown-makemoney",
+    "storage_bucket": "crown-makemoney.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:394535062049:android:d0b956a0ba62b80a27b160",
+        "android_client_info": {
+          "package_name": "com.squadx.crown.makemoneyapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "394535062049-nbnara8335esp6lmpg4llung7romj0to.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDyjNHYDLDlkiUyFUZ4N_iF6kfc1R9tYaw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "394535062049-nbnara8335esp6lmpg4llung7romj0to.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

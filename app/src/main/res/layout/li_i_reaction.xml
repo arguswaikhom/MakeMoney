@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/black"
+    android:gravity="center"
+    android:orientation="horizontal">
+
+    <Button
+        android:id="@+id/btn_lir_up_vote"
+        style="@style/ReactionButtonStyle"
+        android:text=" 27k"
+        app:icon="@drawable/ic_up_vote_24" />
+
+    <Button
+        android:id="@+id/btn_lir_down_vote"
+        style="@style/ReactionButtonStyle"
+        android:text=" 3k"
+        app:icon="@drawable/ic_down_vote_24" />
+
+    <Button
+        android:id="@+id/btn_lir_favourite"
+        style="@style/ReactionButtonStyle"
+        android:text=" 500"
+        android:visibility="gone"
+        app:icon="@drawable/ic_favorite_uncheck_24" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <Button
+        android:id="@+id/btn_lir_read"
+        style="@style/ReactionButtonStyle"
+        android:text=" 121k"
+        app:icon="@drawable/ic_read_24" />
+</LinearLayout>
