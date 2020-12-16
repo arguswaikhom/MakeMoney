@@ -4,63 +4,57 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.squadx.crown.makemoneyapp.BuildConfig;
 import com.squadx.crown.makemoneyapp.R;
 import com.squadx.crown.makemoneyapp.controller.PreferenceController;
 import com.squadx.crown.makemoneyapp.controller.ReactionController;
 import com.squadx.crown.makemoneyapp.controller.UpdateDataset;
-import com.squadx.crown.makemoneyapp.model.LiUrl;
+import com.squadx.crown.makemoneyapp.databinding.ActivityHomeBinding;
+import com.squadx.crown.makemoneyapp.model.ArticleHtml;
+import com.squadx.crown.makemoneyapp.model.ArticleUrl;
+import com.squadx.crown.makemoneyapp.model.ArticleV0;
 import com.squadx.crown.makemoneyapp.model.ListItem;
+import com.squadx.crown.makemoneyapp.util.ListItemType;
+import com.squadx.crown.makemoneyapp.util.MmString;
 import com.squadx.crown.makemoneyapp.view.ListItemAdapter;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-
 public class HomeActivity extends AppCompatActivity {
 
     private final String TAG = HomeActivity.class.getName();
-    private List<ListItem> mDataSet;
+    private final List<ListItem> mDataSet = new ArrayList<>();
     private ListItemAdapter mAdapter;
-    private InterstitialAd mInterstitialAd;
-
-    @BindView(R.id.pbar_ah_loading)
-    ProgressBar mLoadingPBar;
+    // private InterstitialAd mInterstitialAd;
+    private ActivityHomeBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
-        ButterKnife.bind(this);
+        binding = ActivityHomeBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         MobileAds.initialize(this, initializationStatus -> {
         });
 
-        AdView mAdView = findViewById(R.id.av_ah_banner_ad);
         AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
+        binding.bannerHomeAd.loadAd(adRequest);
 
-        mInterstitialAd = new InterstitialAd(this);
+        /*mInterstitialAd = new InterstitialAd(this);
         mInterstitialAd.setAdUnitId(getString(R.string.interstitial_id));
         mInterstitialAd.loadAd(new AdRequest.Builder().build());
 
@@ -78,47 +72,46 @@ public class HomeActivity extends AppCompatActivity {
             public void onAdClosed() {
                 mInterstitialAd.loadAd(new AdRequest.Builder().build());
             }
-        });
+        });*/
 
-        setUpRecycler();
+        setUp();
         getData();
     }
 
-    private void setUpRecycler() {
-        RecyclerView mRecyclerView = findViewById(R.id.rv_ah_list);
-        mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mDataSet = new ArrayList<>();
+    private void setUp() {
+        binding.contentRv.setHasFixedSize(true);
+        binding.contentRv.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new ListItemAdapter(this, mDataSet);
-        mRecyclerView.setAdapter(mAdapter);
+        binding.contentRv.setAdapter(mAdapter);
+
+        binding.menuIv.setOnClickListener(v -> openMenu());
+        binding.refreshIv.setOnClickListener(v -> getData());
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        if (!mInterstitialAd.isLoaded() || mInterstitialAd.isLoading()) {
+        /*if (!mInterstitialAd.isLoaded() || mInterstitialAd.isLoading()) {
             mInterstitialAd.loadAd(new AdRequest.Builder().build());
-        }
+        }*/
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        int clicks = PreferenceController.getInstance(getApplicationContext()).getClick();
+        /*int clicks = PreferenceController.getInstance(getApplicationContext()).getClick();
         Log.v(TAG, "CountClick: " + clicks);
-        Log.v(TAG, "Interstitial loaded = " + mInterstitialAd.isLoaded());
+        Log.v(TAG, "Interstitial loaded = " + mInterstitialAd.isLoaded());*/
     }
 
-    @OnClick(R.id.iv_ah_refresh)
     void getData() {
-        mLoadingPBar.setVisibility(View.VISIBLE);
+        binding.loadingPbar.setVisibility(View.VISIBLE);
         ReactionController.syncWithFirestore(this, null);
         FirebaseFirestore.getInstance().collection(getString(R.string.col_article)).get()
-                .addOnCompleteListener(task -> mLoadingPBar.setVisibility(View.INVISIBLE))
-                .addOnSuccessListener(this::onSuccess).addOnFailureListener(this::onFailure);
+                .addOnCompleteListener(task -> binding.loadingPbar.setVisibility(View.INVISIBLE))
+                .addOnSuccessListener(this::onSuccessV2).addOnFailureListener(this::onFailure);
     }
 
-    @OnClick(R.id.iv_ah_menu)
     public void openMenu() {
         Intent intent = new Intent(this, MenuActivity.class);
         startActivityForResult(intent, MenuActivity.RC_MENU);
@@ -133,33 +126,77 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
-    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-        mDataSet.clear();
+    public void onSuccessV2(QuerySnapshot queryDocumentSnapshots) {
+        Log.v(TAG, "onSuccessV2: " + PreferenceController.getInstance(getApplicationContext()).getVersion());
         if (!queryDocumentSnapshots.isEmpty()) {
-            for (DocumentSnapshot doc : queryDocumentSnapshots.getDocuments()) {
-                if (doc.exists()) {
-                    Long classType = (Long) doc.get("class");
-                    if (classType != null) {
-                        if (classType == ListItem.TYPE_URL) {
-                            LiUrl obj = doc.toObject(LiUrl.class);
-                            if (obj == null) {
-                                Log.v(TAG, "Null doc found: " + doc);
-                                continue;
-                            }
-                            obj.setId(doc.getId());
-                            mDataSet.add(obj);
+            int pVersion = PreferenceController.getInstance(getApplicationContext()).getVersion();
+
+            if (pVersion >= BuildConfig.VERSION_CODE) {
+                showContent(queryDocumentSnapshots, true);
+            } else {
+                getFirebaseAppVersion(queryDocumentSnapshots);
+            }
+        }
+    }
+
+    private void showContent(QuerySnapshot queryDocumentSnapshots, Boolean showFullContent) {
+        mDataSet.clear();
+        Log.v(TAG, "showContent");
+        for (DocumentSnapshot doc : queryDocumentSnapshots.getDocuments()) {
+            if (doc.exists()) {
+                Boolean hide = (Boolean) doc.get("hide");
+                if (!showFullContent && hide != null && hide) continue;
+                Long classType = (Long) doc.get(MmString.fieldMmType);
+                if (classType != null) {
+                    if (classType == ListItemType.ARTICLE_URL) {
+                        ArticleUrl obj = doc.toObject(ArticleUrl.class);
+                        if (obj == null) {
+                            Log.v(TAG, "Null doc found: " + doc);
+                            continue;
                         }
-                    } else {
-                        Log.v(TAG, "Empty class field: " + doc);
+                        obj.setId(doc.getId());
+                        mDataSet.add(obj);
+                    } else if (classType == ListItemType.ARTICLE_HTML) {
+                        ArticleHtml obj = doc.toObject(ArticleHtml.class);
+                        obj.setId(doc.getId());
+                        mDataSet.add(obj);
                     }
+                } else {
+                    Log.v(TAG, "Empty class field: " + doc);
                 }
             }
         }
         List<ListItem> temp = UpdateDataset.update(getApplicationContext(), mDataSet);
         mDataSet.clear();
         mDataSet.addAll(temp);
-        Collections.sort(mDataSet, (o1, o2) -> ((LiUrl) o2).getMyFav().compareTo(((LiUrl) o1).getMyFav()));
+        Collections.shuffle(mDataSet);
+        Collections.sort(mDataSet, (o1, o2) -> {
+            boolean x = ((ArticleV0) o2).getMyFav();
+            boolean y = ((ArticleV0) o1).getMyFav();
+            return (x == y) ? 0 : (x ? 1 : -1);
+        });
         mAdapter.notifyDataSetChanged();
+    }
+
+    private void getFirebaseAppVersion(QuerySnapshot queryDocumentSnapshots) {
+        Log.v(TAG, "getFirebaseAppVersion");
+
+        FirebaseFirestore.getInstance().collection(getString(R.string.col_make_money))
+                .document(getString(R.string.doc_app_version)).get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        Long fbVersion = (Long) documentSnapshot.get(getString(R.string.field_version));
+                        Log.v(TAG, "Firebase version: " + fbVersion);
+                        if (fbVersion != null) {
+                            if (fbVersion < BuildConfig.VERSION_CODE) {
+                                showContent(queryDocumentSnapshots, false);
+                            } else {
+                                showContent(queryDocumentSnapshots, true);
+                                PreferenceController.getInstance(getApplicationContext()).setVersion((int) (long) fbVersion);
+                            }
+                        }
+                    }
+                }).addOnFailureListener(e -> Log.v(TAG, "getFirebaseAppVersion: " + e));
     }
 
     public void onFailure(@NonNull Exception e) {

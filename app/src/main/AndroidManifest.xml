@@ -16,6 +16,9 @@
         android:theme="@style/Material"
         tools:ignore="LockedOrientationActivity">
         <activity
+            android:name=".page.ArticleHtmlActivity"
+            android:theme="@style/Material.NoActionBar.GreyStatusBar" />
+        <activity
             android:name=".page.MenuActivity"
             android:theme="@style/DialogActivity.NoActionBar" />
         <activity
@@ -28,31 +31,16 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".page.MainActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Material">
-
-            <!--
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-            -->
-        </activity>
-        <activity
             android:name=".page.BrowserActivity"
-            android:parentActivityName=".page.MainActivity"
+            android:parentActivityName=".page.HomeActivity"
             android:screenOrientation="portrait" />
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="@string/app_id" />
-
         <meta-data
             android:name="firebase_performance_logcat_enabled"
             android:value="true" />
-
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@mipmap/ic_launcher_round" />
@@ -65,5 +53,4 @@
             </intent-filter>
         </service>
     </application>
-
 </manifest>

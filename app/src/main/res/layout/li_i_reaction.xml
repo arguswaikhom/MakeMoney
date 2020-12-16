@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@android:color/black"
@@ -8,19 +9,21 @@
     android:orientation="horizontal">
 
     <Button
-        android:id="@+id/btn_lir_up_vote"
+        android:id="@+id/up_vote_btn"
         style="@style/ReactionButtonStyle"
         android:text=" 27k"
+        android:visibility="invisible"
         app:icon="@drawable/ic_up_vote_24" />
 
     <Button
-        android:id="@+id/btn_lir_down_vote"
+        android:id="@+id/down_vote_btn"
         style="@style/ReactionButtonStyle"
         android:text=" 3k"
+        android:visibility="invisible"
         app:icon="@drawable/ic_down_vote_24" />
 
     <Button
-        android:id="@+id/btn_lir_favourite"
+        android:id="@+id/fav_btn"
         style="@style/ReactionButtonStyle"
         android:text=" 500"
         android:visibility="gone"
@@ -32,8 +35,8 @@
         android:layout_weight="1" />
 
     <Button
-        android:id="@+id/btn_lir_read"
+        android:id="@+id/read_btn"
         style="@style/ReactionButtonStyle"
-        android:text=" 121k"
-        app:icon="@drawable/ic_read_24" />
+        app:icon="@drawable/ic_read_24"
+        tools:text=" 121k" />
 </LinearLayout>

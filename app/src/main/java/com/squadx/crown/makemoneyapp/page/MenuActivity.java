@@ -5,10 +5,8 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -24,61 +22,51 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.shobhitpuri.custombuttons.GoogleSignInButton;
 import com.squadx.crown.makemoneyapp.R;
 import com.squadx.crown.makemoneyapp.controller.AppController;
 import com.squadx.crown.makemoneyapp.controller.PreferenceController;
 import com.squadx.crown.makemoneyapp.controller.ReactionController;
+import com.squadx.crown.makemoneyapp.databinding.ActivityMenuBinding;
 import com.squadx.crown.makemoneyapp.model.User;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
+import java.util.Arrays;
 
+// todo: use view binding
 public class MenuActivity extends AppCompatActivity {
 
-    private final String TAG = MenuActivity.class.getName();
-    private final int RC_SIGN_IN = 100;
     public static final int RC_MENU = 200;
     public static final String RC_REFRESH_REQUIRE = "REFRESH";
-
-    @BindView(R.id.i_am_avatar)
-    View mAvatarLayout;
-    @BindView(R.id.gsib_am_sign_in)
-    GoogleSignInButton mSignInBtn;
-    @BindView(R.id.ll_am_logout)
-    View mLogout;
-    @BindView(R.id.iv_spal_image)
-    ImageView mProfileIV;
-    @BindView(R.id.tv_spal_name)
-    TextView mDisplayName;
-    @BindView(R.id.tv_spal_email)
-    TextView mEmail;
-    @BindView(R.id.pbar_am_loading)
-    ProgressBar mLoading;
+    private final String TAG = MenuActivity.class.getName();
+    private final int RC_SIGN_IN = 100;
+    private ActivityMenuBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_menu);
-        ButterKnife.bind(this);
+        binding = ActivityMenuBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         updateMainMenu();
+
+        binding.signInWithGoogleBtn.setOnClickListener(this::onClickedSignIn);
+        binding.menuInclude.homeMenu.setOnClickListener(this::onClickedHome);
+        binding.menuInclude.rateMenu.setOnClickListener(this::onClickedRate);
+        binding.menuInclude.recoverMenu.setOnClickListener(this::onClickedRestoreArticle);
+        binding.menuInclude.shareMenu.setOnClickListener(this::onClickedShare);
+        binding.menuInclude.contactUsMenu.setOnClickListener(this::onClickedContactUs);
+        binding.menuInclude.logoutMenu.setOnClickListener(this::onClickedLogOut);
     }
 
-    @OnClick(R.id.gsib_am_sign_in)
-    void onClickedSignIn() {
+    void onClickedSignIn(View view) {
         Intent signInIntent = AppController.getInstance().getGoogleSignInClient().getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
-    @OnClick(R.id.ll_am_home)
-    void onClickedHome() {
+    void onClickedHome(View view) {
         finish();
     }
 
-    @OnClick(R.id.ll_am_rate)
-    void onClickedRate() {
+    void onClickedRate(View view) {
         final String appPackageName = getPackageName();
         try {
             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
@@ -87,13 +75,11 @@ public class MenuActivity extends AppCompatActivity {
         }
     }
 
-    @OnClick(R.id.ll_am_recover)
-    void onClickedRestoreArticle() {
+    void onClickedRestoreArticle(View view) {
         setActivityResult();
     }
 
-    @OnClick(R.id.ll_am_share)
-    void onClickedShare() {
+    void onClickedShare(View view) {
         String text = getString(R.string.share_msg) + "\n\n" + getString(R.string.app_link);
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("*/*");
@@ -111,8 +97,7 @@ public class MenuActivity extends AppCompatActivity {
         }
     }
 
-    @OnClick(R.id.ll_am_contact_us)
-    void onClickedContactUs() {
+    void onClickedContactUs(View view) {
         Intent intent = new Intent(Intent.ACTION_SENDTO);
         intent.setData(Uri.parse("mailto:"));
         intent.putExtra(Intent.EXTRA_EMAIL, new String[]{getString(R.string.gmail)});
@@ -120,8 +105,7 @@ public class MenuActivity extends AppCompatActivity {
         if (intent.resolveActivity(getPackageManager()) != null) startActivity(intent);
     }
 
-    @OnClick(R.id.ll_am_logout)
-    void onClickedLogOut() {
+    void onClickedLogOut(View view) {
         AppController.getInstance().signOut();
         setActivityResult();
     }
@@ -139,19 +123,38 @@ public class MenuActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == RC_SIGN_IN) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            Log.v(TAG, task.toString());
             try {
                 GoogleSignInAccount account = task.getResult(ApiException.class);
+                updateUI(account);
+                Log.v(TAG, "Account: " + account);
+
                 firebaseAuthWithGoogle(account);
             } catch (Exception e) {
+                Log.v(TAG, "\n\nSign in failed");
+                Log.v(TAG, e.toString());
+                Log.v(TAG, "" + Arrays.toString(e.getStackTrace()));
+                updateUI(null);
+
+                e.printStackTrace();
                 Toast.makeText(this, "Sign in failed", Toast.LENGTH_SHORT).show();
             }
         }
     }
 
+    private void updateUI(GoogleSignInAccount account) {
+        if (account == null) Toast.makeText(this, "No account", Toast.LENGTH_SHORT).show();
+        else Toast.makeText(this, account.getEmail(), Toast.LENGTH_SHORT).show();
+    }
+
     private void firebaseAuthWithGoogle(@NonNull GoogleSignInAccount acct) {
-        mLoading.setVisibility(View.VISIBLE);
+        binding.loadingPbar.setVisibility(View.VISIBLE);
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
+        Log.v(TAG, acct.toString());
+
         AppController.getInstance().getFirebaseAuth().signInWithCredential(credential).addOnCompleteListener(this, task -> {
+            Log.v(TAG, "\n\nTask Sign in failed");
+            Log.v(TAG, task.toString());
             if (task.isSuccessful()) {
                 FirebaseUser user = AppController.getInstance().getFirebaseAuth().getCurrentUser();
                 if (user != null) setUser(acct, user);
@@ -159,7 +162,7 @@ public class MenuActivity extends AppCompatActivity {
             } else {
                 Toast.makeText(this, "Sign in failed", Toast.LENGTH_SHORT).show();
             }
-            mLoading.setVisibility(View.GONE);
+            binding.loadingPbar.setVisibility(View.GONE);
         });
     }
 
@@ -176,17 +179,19 @@ public class MenuActivity extends AppCompatActivity {
         if (AppController.getInstance().isAuthenticated()) {
             User user = PreferenceController.getInstance(getApplicationContext()).getUser();
 
-            Glide.with(this).load(user.getProfileImage()).apply(new RequestOptions().centerCrop().circleCrop()).into(mProfileIV);
-            mDisplayName.setText(user.getName());
-            mEmail.setText(user.getEmail());
+            Glide.with(this).load(user.getProfileImage()).apply(new RequestOptions().centerCrop().circleCrop()).into(binding.avatarInclude.imageIv);
+            binding.avatarInclude.nameTv.setText(user.getName());
+            binding.avatarInclude.emailTv.setText(user.getEmail());
 
-            mAvatarLayout.setVisibility(View.VISIBLE);
-            mSignInBtn.setVisibility(View.GONE);
-            mLogout.setVisibility(View.VISIBLE);
+            binding.avatarInclude.getRoot().setVisibility(View.VISIBLE);
+            binding.signInWithGoogleBtn.setVisibility(View.GONE);
+            binding.menuInclude.logoutMenu.setVisibility(View.VISIBLE);
         } else {
-            mAvatarLayout.setVisibility(View.GONE);
-            mSignInBtn.setVisibility(View.VISIBLE);
-            mLogout.setVisibility(View.GONE);
+            binding.avatarInclude.getRoot().setVisibility(View.GONE);
+            // todo: make sign-in btn visible after fixing the sign-in issue
+            // binding.signInWithGoogleBtn.setVisibility(View.VISIBLE);
+            binding.signInWithGoogleBtn.setVisibility(View.GONE);
+            binding.loadingPbar.setVisibility(View.GONE);
         }
     }
 }

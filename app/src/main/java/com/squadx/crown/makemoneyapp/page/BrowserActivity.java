@@ -20,7 +20,6 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,16 +27,14 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
 import com.google.gson.Gson;
 import com.squadx.crown.makemoneyapp.R;
-import com.squadx.crown.makemoneyapp.model.LiUrl;
-import com.squadx.crown.makemoneyapp.model.Primary;
+import com.squadx.crown.makemoneyapp.databinding.ActivityBrowserBinding;
+import com.squadx.crown.makemoneyapp.model.ArticleUrl;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.concurrent.ScheduledExecutorService;
 
 public class BrowserActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
 
@@ -48,30 +45,26 @@ public class BrowserActivity extends AppCompatActivity implements SwipeRefreshLa
     private String link;
     private int mProgress;
     private String mCurrentUrl;
-    private WebView webView;
-    private ProgressBar progressBar;
-    private SwipeRefreshLayout swipeLayout;
     private InterstitialAd mInterstitialAd;
-    private ScheduledExecutorService scheduler;
     private Handler handler;
     private Runnable runnable;
-
+    private ActivityBrowserBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getWindow().requestFeature(Window.FEATURE_PROGRESS);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_browser);
+        binding = ActivityBrowserBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         MobileAds.initialize(this, initializationStatus -> {
         });
 
-        AdView mAdView = findViewById(R.id.av_ab_banner_ad);
         AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
+        binding.bannerContentAd.loadAd(adRequest);
 
         mInterstitialAd = new InterstitialAd(this);
-        mInterstitialAd.setAdUnitId(getString(R.string.interstitial_id));
+        mInterstitialAd.setAdUnitId(getString(R.string.interstitial_content));
         mInterstitialAd.loadAd(new AdRequest.Builder().build());
         mInterstitialAd.setAdListener(new AdListener() {
             @Override
@@ -95,51 +88,42 @@ public class BrowserActivity extends AppCompatActivity implements SwipeRefreshLa
 
         Intent intent = getIntent();
         if (intent.hasExtra(TAG_ITEM_V2)) {
-            LiUrl obj = new Gson().fromJson(intent.getStringExtra(TAG_ITEM_V2), LiUrl.class);
+            ArticleUrl obj = new Gson().fromJson(intent.getStringExtra(TAG_ITEM_V2), ArticleUrl.class);
             link = obj.getUrl();
-            getSupportActionBar().setTitle(obj.getTitle());
-        } else {
-            Primary obj = (Primary) intent.getParcelableExtra(TAG_ITEM);
-            link = obj.getLink();
             getSupportActionBar().setTitle(obj.getTitle());
         }
 
-        //mTextViewConfess = findViewById(R.id.textView_confess);
-        webView = findViewById(R.id.web_view);
-        progressBar = findViewById(R.id.progress_bar);
-        progressBar.setVisibility(View.GONE);
-        swipeLayout = findViewById(R.id.swipe_container);
-        swipeLayout.setOnRefreshListener(this);
+        binding.verticalLoadingPbar.setVisibility(View.GONE);
+        binding.swipeRefreshLayout.setOnRefreshListener(this);
 
-        webView.getSettings().setJavaScriptEnabled(true);
-        webView.setVerticalScrollBarEnabled(false);
-        webView.setHorizontalScrollBarEnabled(false);
+        binding.linkWebview.getSettings().setJavaScriptEnabled(true);
+        binding.linkWebview.setVerticalScrollBarEnabled(false);
+        binding.linkWebview.setHorizontalScrollBarEnabled(false);
 
-        webView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
-        webView.getSettings().setUseWideViewPort(true);
-        webView.getSettings().setBuiltInZoomControls(true);
-        webView.getSettings().setDisplayZoomControls(false);
-        webView.getSettings().setLoadWithOverviewMode(true);
-        //webView.requestFocusFromTouch();
-        //webView.requestFocus();
-        //webView.reload();
+        binding.linkWebview.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
+        binding.linkWebview.getSettings().setUseWideViewPort(true);
+        binding.linkWebview.getSettings().setBuiltInZoomControls(true);
+        binding.linkWebview.getSettings().setDisplayZoomControls(false);
+        binding.linkWebview.getSettings().setLoadWithOverviewMode(true);
+        //binding.linkWebview.requestFocusFromTouch();
+        //binding.linkWebview.requestFocus();
+        //binding.linkWebview.reload();
 
         setProgressBarVisibility(true);
 
         final Activity activity = this;
-        webView.setWebChromeClient(new WebChromeClient() {
+        binding.linkWebview.setWebChromeClient(new WebChromeClient() {
             public void onProgressChanged(WebView view, int progress) {
-                progressBar.setVisibility(View.VISIBLE);
-                progressBar.setProgress(progress);
+                binding.verticalLoadingPbar.setVisibility(View.VISIBLE);
+                binding.verticalLoadingPbar.setProgress(progress);
                 mProgress = progress;
                 if (isProgressDone()) {
                     setTitle(getString(R.string.app_name));
-                    progressBar.setVisibility(View.GONE);
+                    binding.verticalLoadingPbar.setVisibility(View.GONE);
                 }
-
             }
         });
-        webView.setWebViewClient(new WebViewClient() {
+        binding.linkWebview.setWebViewClient(new WebViewClient() {
 
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
@@ -176,7 +160,7 @@ public class BrowserActivity extends AppCompatActivity implements SwipeRefreshLa
                 return false;
             }
         });
-        webView.loadUrl(link);
+        binding.linkWebview.loadUrl(link);
     }
 
     @Override
@@ -201,11 +185,11 @@ public class BrowserActivity extends AppCompatActivity implements SwipeRefreshLa
     protected void onPause() {
         super.onPause();
 
-        //Class.forName("android.webkit.WebView").getMethod("onPause", (Class[]) null).invoke(webView, (Object[]) null);
+        //Class.forName("android.webkit.WebView").getMethod("onPause", (Class[]) null).invoke(binding.linkWebview, (Object[]) null);
         try {
             Class.forName("android.webkit.WebView")
                     .getMethod("onPause", (Class[]) null)
-                    .invoke(webView, (Object[]) null);
+                    .invoke(binding.linkWebview, (Object[]) null);
 
         } catch (ClassNotFoundException e) {
             Log.v(LOG_TAG, "ClassNotFoundException: ", e);
@@ -226,9 +210,9 @@ public class BrowserActivity extends AppCompatActivity implements SwipeRefreshLa
 
     @Override
     public void onRefresh() {
-        webView.loadUrl(mCurrentUrl);
+        binding.linkWebview.loadUrl(mCurrentUrl);
         if (isProgressDone()) {
-            new Handler().postDelayed(() -> swipeLayout.setRefreshing(false), 1000);
+            new Handler().postDelayed(() -> binding.swipeRefreshLayout.setRefreshing(false), 1000);
         }
     }
 
@@ -237,8 +221,8 @@ public class BrowserActivity extends AppCompatActivity implements SwipeRefreshLa
         if (event.getAction() == KeyEvent.ACTION_DOWN) {
             switch (keyCode) {
                 case KeyEvent.KEYCODE_BACK:
-                    if (webView.canGoBack()) {
-                        webView.goBack();
+                    if (binding.linkWebview.canGoBack()) {
+                        binding.linkWebview.goBack();
                     } else {
                         finish();
                     }
@@ -258,7 +242,7 @@ public class BrowserActivity extends AppCompatActivity implements SwipeRefreshLa
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_home:
-                webView.loadUrl(link);
+                binding.linkWebview.loadUrl(link);
                 return true;
 
             case R.id.action_browser:
@@ -267,7 +251,7 @@ public class BrowserActivity extends AppCompatActivity implements SwipeRefreshLa
                     intent.setData(Uri.parse(mCurrentUrl));
                     startActivity(intent);
                 } catch (NullPointerException e) {
-                    Log.v(LOG_TAG, "Current URL : " + String.valueOf(mCurrentUrl == null), e);
+                    Log.v(LOG_TAG, "Current URL : " + (mCurrentUrl == null), e);
                 }
                 return true;
         }

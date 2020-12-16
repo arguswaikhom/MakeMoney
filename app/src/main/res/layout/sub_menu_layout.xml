@@ -2,15 +2,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:ignore="HardcodedText"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@android:color/black"
     android:gravity="center"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:ignore="HardcodedText">
 
     <LinearLayout
-        android:id="@+id/ll_am_home"
+        android:id="@+id/home_menu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackground"
@@ -45,7 +45,7 @@
         android:background="@color/text_hint" />
 
     <LinearLayout
-        android:id="@+id/ll_am_recover"
+        android:id="@+id/recover_menu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackground"
@@ -80,7 +80,7 @@
         android:background="@color/text_hint" />
 
     <LinearLayout
-        android:id="@+id/ll_am_rate"
+        android:id="@+id/rate_menu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackground"
@@ -116,7 +116,7 @@
         android:background="@color/text_hint" />
 
     <LinearLayout
-        android:id="@+id/ll_am_share"
+        android:id="@+id/share_menu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackground"
@@ -151,7 +151,7 @@
         android:background="@color/text_hint" />
 
     <LinearLayout
-        android:id="@+id/ll_am_contact_us"
+        android:id="@+id/contact_us_menu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackground"
@@ -187,7 +187,7 @@
         android:background="@color/text_hint" />
 
     <LinearLayout
-        android:id="@+id/ll_am_logout"
+        android:id="@+id/logout_menu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackground"

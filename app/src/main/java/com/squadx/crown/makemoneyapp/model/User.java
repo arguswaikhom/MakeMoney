@@ -9,15 +9,15 @@ public class User {
     public User() {
     }
 
-    public String getEmail() {
-        return email;
-    }
-
     public User(String userId, String name, String email, String profileImage) {
         this.userId = userId;
         this.name = name;
         this.email = email;
         this.profileImage = profileImage;
+    }
+
+    public String getEmail() {
+        return email;
     }
 
     public String getUserId() {

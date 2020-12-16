@@ -11,7 +11,7 @@
         android:orientation="vertical">
 
         <ProgressBar
-            android:id="@+id/progress_bar"
+            android:id="@+id/vertical_loading_pbar"
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="match_parent"
             android:layout_height="10dp"
@@ -21,7 +21,7 @@
             android:background="@android:color/transparent" />
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            android:id="@+id/swipe_container"
+            android:id="@+id/swipe_refresh_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -31,7 +31,7 @@
                 android:clipToPadding="false">
 
                 <WebView
-                    android:id="@+id/web_view"
+                    android:id="@+id/link_webview"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="0dp"
@@ -40,18 +40,18 @@
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
         <TextView
-            android:id="@+id/textView_confess"
+            android:id="@+id/confess_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             tools:text="All the platforms provided here including website links, videos do not belong to this app. The developers of this app are not affiliated with any of the platform mentioned above." />
     </LinearLayout>
 
     <com.google.android.gms.ads.AdView
-        android:id="@+id/av_ab_banner_ad"
+        android:id="@+id/banner_content_ad"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         ads:adSize="BANNER"
-        ads:adUnitId="@string/banner_id" />
+        ads:adUnitId="@string/banner_content" />
 </RelativeLayout>

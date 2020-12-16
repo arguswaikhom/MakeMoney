@@ -9,14 +9,14 @@
     android:orientation="vertical">
 
     <ImageView
-        android:id="@+id/iv_spal_image"
+        android:id="@+id/image_iv"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_gravity="center"
         tools:src="@android:color/holo_purple" />
 
     <TextView
-        android:id="@+id/tv_spal_name"
+        android:id="@+id/name_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -26,7 +26,7 @@
         tools:text="Kevin John" />
 
     <TextView
-        android:id="@+id/tv_spal_email"
+        android:id="@+id/email_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"

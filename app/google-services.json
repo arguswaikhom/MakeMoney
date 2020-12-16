@@ -8,12 +8,20 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:394535062049:android:d0b956a0ba62b80a27b160",
+        "mobilesdk_app_id": "1:394535062049:android:72d1a9e4787cc13127b160",
         "android_client_info": {
           "package_name": "com.squadx.crown.makemoneyapp"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "394535062049-lim6laom85m8hu3apcmm07gj1o5g6vql.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.squadx.crown.makemoneyapp",
+            "certificate_hash": "4dbaf1d33cd725761961a7a1ec3aee569cc9de6b"
+          }
+        },
         {
           "client_id": "394535062049-nbnara8335esp6lmpg4llung7romj0to.apps.googleusercontent.com",
           "client_type": 3

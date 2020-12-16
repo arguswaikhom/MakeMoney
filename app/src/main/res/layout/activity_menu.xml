@@ -28,26 +28,27 @@
                 android:orientation="vertical">
 
                 <include
-                    android:id="@+id/i_am_avatar"
+                    android:id="@+id/avatar_include"
                     layout="@layout/sub_profile_avatar_layout"
                     android:visibility="gone" />
 
                 <include
-                    android:id="@+id/i_am_menu"
+                    android:id="@+id/menu_include"
                     layout="@layout/sub_menu_layout" />
 
                 <com.shobhitpuri.custombuttons.GoogleSignInButton
-                    android:id="@+id/gsib_am_sign_in"
+                    android:id="@+id/sign_in_with_google_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
                     android:text="Sign in with Google"
+                    android:visibility="gone"
                     app:isDarkTheme="true"
                     tools:ignore="HardcodedText" />
             </LinearLayout>
 
             <ProgressBar
-                android:id="@+id/pbar_am_loading"
+                android:id="@+id/loading_pbar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"

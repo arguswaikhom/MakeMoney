@@ -2,8 +2,9 @@ package com.squadx.crown.makemoneyapp.controller;
 
 import android.content.Context;
 
-import com.squadx.crown.makemoneyapp.model.LiUrl;
+import com.squadx.crown.makemoneyapp.model.ArticleV0;
 import com.squadx.crown.makemoneyapp.model.ListItem;
+import com.squadx.crown.makemoneyapp.util.ListItemType;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -19,14 +20,13 @@ public class UpdateDataset {
         Iterator<ListItem> iterator = dataset.iterator();
         while (iterator.hasNext()) {
             ListItem listItem = iterator.next();
-            if (listItem.getItemType() == ListItem.TYPE_URL) {
-                LiUrl obj = (LiUrl) listItem;
+            if (listItem.getItemType() == ListItemType.ARTICLE_URL || listItem.getItemType() == ListItemType.ARTICLE_HTML) {
+                ArticleV0 obj = (ArticleV0) listItem;
                 if (removedArticles.contains(obj.getId())) {
                     iterator.remove();
                     continue;
                 }
-                if (fav.contains(obj.getId())) obj.setMyFav(true);
-                else obj.setMyFav(false);
+                obj.setMyFav(fav.contains(obj.getId()));
             }
             temp.add(listItem);
         }

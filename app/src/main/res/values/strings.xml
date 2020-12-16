@@ -1,29 +1,26 @@
 <resources>
     <string name="app_name">Make Money</string>
-    <!--
-    test_app_id: ca-app-pub-3940256099942544~3347511713
-    production_app_id: ca-app-pub-6760479992649501~1913105179
-
-    test_banner_id: ca-app-pub-3940256099942544/6300978111
-    production_banner_id: ca-app-pub-6760479992649501/8095370141
-
-    test_interstitial_id: ca-app-pub-3940256099942544/1033173712
-    production_interstitial_id: ca-app-pub-6760479992649501/4538789588
-    -->
 
     <!--Production-->
-    <string name="app_id">ca-app-pub-6760479992649501~1913105179</string>
-    <string name="banner_id">ca-app-pub-6760479992649501/8095370141</string>
-    <string name="interstitial_id">ca-app-pub-6760479992649501/4538789588</string>
+    <!--<string name="app_id">ca-app-pub-4926812018620082~4358661222</string>
+    <string name="banner_home">ca-app-pub-4926812018620082/6083979897</string>
+    <string name="banner_content">ca-app-pub-4926812018620082/5105940145</string>
+    <string name="interstitial_content">ca-app-pub-4926812018620082/3528617670</string>-->
 
     <!--Testing-->
-    <!--<string name="app_id">ca-app-pub-3940256099942544~3347511713</string>
-    <string name="banner_id">ca-app-pub-3940256099942544/6300978111</string>
-    <string name="interstitial_id">ca-app-pub-3940256099942544/1033173712</string>-->
+    <string name="app_id">ca-app-pub-3940256099942544~3347511713</string>
+    <string name="banner_home">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="banner_content">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="interstitial_content">ca-app-pub-3940256099942544/1033173712</string>
 
     <string name="col_article">article</string>
     <string name="col_reaction">reaction</string>
     <string name="col_user">user</string>
+    <string name="col_make_money">make-money</string>
+
+    <string name="doc_app_version">app-version</string>
+
+    <string name="field_version">version</string>
     <string name="field_action">action</string>
 
     <string name="app_link">https://play.google.com/store/apps/details?id=com.squadx.crown.makemoneyapp</string>

@@ -18,15 +18,15 @@ import java.util.Map;
 import static android.content.Context.MODE_PRIVATE;
 
 public class PreferenceController {
+    private static final String TAG_VERSION = "VERSION";
     private static final String TAG_USER = "USER";
     private static final String TAG_CLICKS = "CLICKS";
     private static final String TAG_FAVOURITE = "FAVOURITE";
     private static final String TAG_READ = "READ";
     private static final String TAG_REACTION = "REACTION";
     private static final String TAG_REMOVED_ARTICLES = "REMOVED_ARTICLES";
-
-    private SharedPreferences preferences;
-    private static PreferenceController instance = null;
+    private static final PreferenceController instance = null;
+    private final SharedPreferences preferences;
 
     private PreferenceController(Context context) {
         this.preferences = context.getSharedPreferences(TAG_CLICKS, MODE_PRIVATE);
@@ -140,6 +140,16 @@ public class PreferenceController {
             return new ArrayList<>(Arrays.asList(new Gson().fromJson(json, String[].class)));
         }
         return null;
+    }
+
+    public int getVersion() {
+        return preferences.getInt(TAG_VERSION, -1);
+    }
+
+    public void setVersion(int version) {
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt(TAG_VERSION, version);
+        editor.apply();
     }
 
     public void clearAll() {
