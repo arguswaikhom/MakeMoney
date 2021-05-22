@@ -46,12 +46,12 @@
             tools:text="All the platforms provided here including website links, videos do not belong to this app. The developers of this app are not affiliated with any of the platform mentioned above." />
     </LinearLayout>
 
-    <com.google.android.gms.ads.AdView
+    <!--<com.google.android.gms.ads.AdView
         android:id="@+id/banner_content_ad"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         ads:adSize="BANNER"
-        ads:adUnitId="@string/banner_content" />
+        ads:adUnitId="@string/banner_content" />-->
 </RelativeLayout>

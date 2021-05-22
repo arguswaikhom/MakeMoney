@@ -25,10 +25,6 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.InterstitialAd;
-import com.google.android.gms.ads.MobileAds;
 import com.google.gson.Gson;
 import com.squadx.crown.makemoneyapp.R;
 import com.squadx.crown.makemoneyapp.databinding.ActivityBrowserBinding;
@@ -45,9 +41,9 @@ public class BrowserActivity extends AppCompatActivity implements SwipeRefreshLa
     private String link;
     private int mProgress;
     private String mCurrentUrl;
-    private InterstitialAd mInterstitialAd;
-    private Handler handler;
-    private Runnable runnable;
+    // private InterstitialAd mInterstitialAd;
+    // private Handler handler;
+    // private Runnable runnable;
     private ActivityBrowserBinding binding;
 
     @Override
@@ -57,7 +53,7 @@ public class BrowserActivity extends AppCompatActivity implements SwipeRefreshLa
         binding = ActivityBrowserBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        MobileAds.initialize(this, initializationStatus -> {
+        /*MobileAds.initialize(this, initializationStatus -> {
         });
 
         AdRequest adRequest = new AdRequest.Builder().build();
@@ -72,7 +68,7 @@ public class BrowserActivity extends AppCompatActivity implements SwipeRefreshLa
                 // Load the next interstitial.
                 mInterstitialAd.loadAd(new AdRequest.Builder().build());
             }
-        });
+        });*/
 
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         try {
@@ -163,7 +159,7 @@ public class BrowserActivity extends AppCompatActivity implements SwipeRefreshLa
         binding.linkWebview.loadUrl(link);
     }
 
-    @Override
+    /*@Override
     protected void onStart() {
         super.onStart();
         handler = new Handler();
@@ -179,7 +175,7 @@ public class BrowserActivity extends AppCompatActivity implements SwipeRefreshLa
             }
         };
         handler.postDelayed(runnable, 72000);
-    }
+    }*/
 
     @Override
     protected void onPause() {
@@ -202,11 +198,11 @@ public class BrowserActivity extends AppCompatActivity implements SwipeRefreshLa
         }
     }
 
-    @Override
+    /*@Override
     protected void onStop() {
         super.onStop();
         handler.removeCallbacks(runnable);
-    }
+    }*/
 
     @Override
     public void onRefresh() {

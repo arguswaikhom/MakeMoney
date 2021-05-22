@@ -10,12 +10,13 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.mopub.common.MoPub;
+import com.mopub.common.SdkConfiguration;
 import com.squadx.crown.makemoneyapp.BuildConfig;
 import com.squadx.crown.makemoneyapp.R;
 import com.squadx.crown.makemoneyapp.controller.PreferenceController;
@@ -51,8 +52,27 @@ public class HomeActivity extends AppCompatActivity {
         MobileAds.initialize(this, initializationStatus -> {
         });
 
+        initMoPubSdk();
+
+       /* MobileAds.initialize(this, initializationStatus -> {
+        });*/
+
+        /*MobileAds.initialize(this, initializationStatus -> {
+            Map<String, AdapterStatus> statusMap = initializationStatus.getAdapterStatusMap();
+            for (String adapterClass : statusMap.keySet()) {
+                AdapterStatus status = statusMap.get(adapterClass);
+                Log.d("MyApp", String.format(
+                        "Adapter name: %s, Description: %s, Latency: %d",
+                        adapterClass, status.getDescription(), status.getLatency()));
+            }
+
+            // Start loading ads here...
+        });
+
         AdRequest adRequest = new AdRequest.Builder().build();
         binding.bannerHomeAd.loadAd(adRequest);
+
+        MediationTestSuite.launch(HomeActivity.this);*/
 
         /*mInterstitialAd = new InterstitialAd(this);
         mInterstitialAd.setAdUnitId(getString(R.string.interstitial_id));
@@ -76,6 +96,31 @@ public class HomeActivity extends AppCompatActivity {
 
         setUp();
         getData();
+    }
+
+    private void initMoPubSdk() {
+        // if you want to support Native Facebook Ad then add below
+        /*Map<String, String> facebookNativeBanner = new HashMap<>();
+        facebookNativeBanner.put("native_banner", "true");*/
+
+        // integration of FAN with MoPub
+        /*SdkConfiguration.Builder configBuilder = new SdkConfiguration.Builder(getString(R.string.banner_home));
+        configBuilder.withMediatedNetworkConfiguration(HomeActivity.class.getName(), facebookNativeBanner);*/
+
+        SdkConfiguration sdkConfiguration = new SdkConfiguration.Builder(getString(R.string.banner_home))
+                .withLegitimateInterestAllowed(false)
+                .build();
+
+        MoPub.initializeSdk(this, sdkConfiguration, () -> {
+            binding.mopubBannerHomeAd.setAdUnitId(getString(R.string.banner_home));
+            binding.mopubBannerHomeAd.loadAd();
+        });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        binding.mopubBannerHomeAd.destroy();
     }
 
     private void setUp() {
@@ -143,27 +188,31 @@ public class HomeActivity extends AppCompatActivity {
         mDataSet.clear();
         Log.v(TAG, "showContent");
         for (DocumentSnapshot doc : queryDocumentSnapshots.getDocuments()) {
-            if (doc.exists()) {
-                Boolean hide = (Boolean) doc.get("hide");
-                if (!showFullContent && hide != null && hide) continue;
-                Long classType = (Long) doc.get(MmString.fieldMmType);
-                if (classType != null) {
-                    if (classType == ListItemType.ARTICLE_URL) {
-                        ArticleUrl obj = doc.toObject(ArticleUrl.class);
-                        if (obj == null) {
-                            Log.v(TAG, "Null doc found: " + doc);
-                            continue;
+            try {
+                if (doc.exists()) {
+                    Boolean hide = (Boolean) doc.get("hide");
+                    if (!showFullContent && hide != null && hide) continue;
+                    Long classType = (Long) doc.get(MmString.fieldMmType);
+                    if (classType != null) {
+                        if (classType == ListItemType.ARTICLE_URL) {
+                            ArticleUrl obj = doc.toObject(ArticleUrl.class);
+                            if (obj == null) {
+                                Log.v(TAG, "Null doc found: " + doc);
+                                continue;
+                            }
+                            obj.setId(doc.getId());
+                            mDataSet.add(obj);
+                        } else if (classType == ListItemType.ARTICLE_HTML) {
+                            ArticleHtml obj = doc.toObject(ArticleHtml.class);
+                            obj.setId(doc.getId());
+                            mDataSet.add(obj);
                         }
-                        obj.setId(doc.getId());
-                        mDataSet.add(obj);
-                    } else if (classType == ListItemType.ARTICLE_HTML) {
-                        ArticleHtml obj = doc.toObject(ArticleHtml.class);
-                        obj.setId(doc.getId());
-                        mDataSet.add(obj);
+                    } else {
+                        Log.v(TAG, "Empty class field: " + doc);
                     }
-                } else {
-                    Log.v(TAG, "Empty class field: " + doc);
                 }
+            } catch (Exception exception) {
+                exception.printStackTrace();
             }
         }
         List<ListItem> temp = UpdateDataset.update(getApplicationContext(), mDataSet);

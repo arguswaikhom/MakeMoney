@@ -28,6 +28,7 @@ public class AppController extends Application {
     public void onCreate() {
         super.onCreate();
         mInstance = this;
+        // AudienceNetworkInitializeHelper.initialize(this);
     }
 
     public RequestQueue getRequestQueue() {

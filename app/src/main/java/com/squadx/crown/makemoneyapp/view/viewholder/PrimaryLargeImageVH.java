@@ -34,9 +34,9 @@ import java.util.Map;
 
 public class PrimaryLargeImageVH extends RecyclerView.ViewHolder {
 
-    private ArticleV0 article;
     private final Context context;
     private final LiPrimaryLargeImageBinding binding;
+    private ArticleV0 article;
 
     public PrimaryLargeImageVH(@NonNull View itemView) {
         super(itemView);

@@ -1,17 +1,31 @@
 <resources>
     <string name="app_name">Make Money</string>
 
+    <string name="facebook_app_id">[APP_ID]</string>
+    <string name="fb_login_protocol_scheme">fb[APP_ID]</string>
+
     <!--Production-->
-    <!--<string name="app_id">ca-app-pub-4926812018620082~4358661222</string>
-    <string name="banner_home">ca-app-pub-4926812018620082/6083979897</string>
-    <string name="banner_content">ca-app-pub-4926812018620082/5105940145</string>
-    <string name="interstitial_content">ca-app-pub-4926812018620082/3528617670</string>-->
+    <string name="app_id">ca-app-pub-9970174267974545~1996891618</string>
+    <!--<string name="banner_home">ca-app-pub-9970174267974545/7736303450</string>
+    <string name="banner_content">ca-app-pub-9970174267974545/3957034067</string>
+    <string name="interstitial_content">ca-app-pub-9970174267974545/3797058448</string>-->
 
     <!--Testing-->
-    <string name="app_id">ca-app-pub-3940256099942544~3347511713</string>
+    <!--<string name="app_id">ca-app-pub-3940256099942544~3347511713</string>
     <string name="banner_home">ca-app-pub-3940256099942544/6300978111</string>
     <string name="banner_content">ca-app-pub-3940256099942544/6300978111</string>
-    <string name="interstitial_content">ca-app-pub-3940256099942544/1033173712</string>
+    <string name="interstitial_content">ca-app-pub-3940256099942544/1033173712</string>-->
+
+    <!--MoPub ad-->
+    <!--Production-->
+    <!--<string name="banner_home">e8f36fbc28104ceeb1531a6836605aba</string>
+    <string name="banner_content">a2ee1b87f63e4f6686713d8b32aac421</string>
+    <string name="interstitial_content">cb4b73ff834f455aa387bd45a67287dc</string>-->
+
+    <!--Testing-->
+    <string name="banner_home">b195f8dd8ded45fe847ad89ed1d016da</string>
+    <string name="banner_content">b195f8dd8ded45fe847ad89ed1d016da</string>
+    <string name="interstitial_content">24534e1901884e398f1253216226017e</string>
 
     <string name="col_article">article</string>
     <string name="col_reaction">reaction</string>
